@@ -281,7 +281,8 @@ input::placeholder {
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
-        vertical-align: bottom; /* See https://stackoverflow.com/a/43266155/ */
+        vertical-align: bottom;
+        /* See https://stackoverflow.com/a/43266155/ */
         padding: 3px 10px;
         background-color: var(--color-background-tab-switcher-ind-tab);
         cursor: pointer;
@@ -835,7 +836,8 @@ input.settings_text_input {
         .icon-button {
             display: inline-flex;
             align-items: center;
-            min-height: 2.1875em; /* 35px at 16px/1em */
+            min-height: 2.1875em;
+            /* 35px at 16px/1em */
         }
     }
 
@@ -899,14 +901,16 @@ input.settings_text_input {
     display: flex;
     flex-wrap: wrap;
     margin: 0.2857em 0;
-    gap: 0 0.625em; /* 10px at 16px em */
+    gap: 0 0.625em;
+    /* 10px at 16px em */
     align-items: center;
 }
 
 .save-button-controls {
     display: flex;
     align-items: center;
-    gap: 0.3125em; /* 5px at 16px em */
+    gap: 0.3125em;
+    /* 5px at 16px em */
 
     &.hide {
         display: none;
@@ -1256,6 +1260,7 @@ input.settings_text_input {
         &:nth-of-type(5):checked ~ .slider {
             --tab-selected-tab-picker: 4;
         }
+
         /* If a tab picker with more than 5 tabs is required,
            extend this using the same pattern as above. */
     }
@@ -1467,4 +1472,102 @@ input.invalid-input {
             }
         }
     }
+}
+
+/* Brand styling for create button */
+.create_user_group_button {
+    background-color: hsl(176deg 46% 41%);
+    color: hsl(0deg 0% 100%);
+    border-color: hsl(176deg 46% 41%);
+    font-weight: 500;
+    /* medium-emphasis */
+}
+
+.create_user_group_button:hover {
+    background-color: hsl(176deg 46% 35%);
+    border-color: hsl(176deg 46% 35%);
+}
+
+.create_user_group_button:focus {
+    box-shadow: 0 0 0 2px hsl(176deg 46% 41% / 50%);
+}
+
+/* Neutral styling for view all groups button */
+.view_all_groups_button {
+    background-color: hsl(0deg 0% 96%);
+    color: hsl(0deg 0% 27%);
+    border-color: hsl(0deg 0% 80%);
+    font-weight: 500;
+    /* medium-emphasis */
+}
+
+.view_all_groups_button:hover {
+    background-color: hsl(0deg 0% 90%);
+    border-color: hsl(0deg 0% 67%);
+}
+
+.view_all_groups_button:focus {
+    box-shadow: 0 0 0 2px hsl(0deg 0% 67% / 50%);
+}
+
+/* Ensure both buttons have consistent sizing */
+.create_user_group_button,
+.view_all_groups_button {
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: 1px solid;
+    transition:
+        background-color 0.15s ease,
+        border-color 0.15s ease,
+        color 0.15s ease;
+    font-size: 14px;
+    cursor: pointer;
+    outline: none;
+}
+
+.create_user_group_button:focus,
+.view_all_groups_button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px;
+}
+
+/* Empty state container styling */
+.empty-state-container {
+    text-align: center;
+    padding: 2rem;
+}
+
+.empty-state-message {
+    color: hsl(0deg 0% 45%);
+    margin-bottom: 1rem;
+    font-size: 14px;
+}
+
+.inline-actions {
+    margin-top: 1rem;
+}
+
+.inline-actions .create_user_group_button,
+.inline-actions .view_all_groups_button {
+    margin: 0 auto;
+    display: block;
+}
+
+/* Target the inner .empty-state-message container specifically */
+.left .no-groups-to-show .empty-state-message {
+    text-align: center;
+    padding: 20px;
+}
+
+/* Center the button specifically */
+.left .empty-state-message .view_all_groups_button {
+    margin: 16px auto 0;
+    display: block;
+}
+
+/* Ensure the message text is visible and centered */
+.left .empty-state-message p {
+    text-align: center;
+    margin-bottom: 16px;
+    color: hsl(0deg 0% 45%);
 }
