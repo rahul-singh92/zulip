@@ -1762,7 +1762,7 @@ function get_empty_user_group_list_message(
         return $t({defaultMessage: "There are no groups matching your filters."});
     }
 
-    if(groups_count == 0) {
+    if(groups_count === 0) {
         return $t({defaultMessage: "There are no user groups you can view in this organization."});
     }
 
