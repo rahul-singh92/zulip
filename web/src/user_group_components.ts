@@ -36,8 +36,7 @@ export const show_user_group_settings_pane = {
         $("#groups_overlay .settings").show();
         set_active_group_id(group.id);
         const group_name = user_groups.get_display_group_name(group.name);
-        $("#groups_overlay .user-group-info-title .group-name-text").text(group_name);
-        $("#groups_overlay .user-group-info-title").addClass("showing-info-title");
+        $("#groups_overlay .user-group-info-title .group-name-text").text(group_name).addClass("showing-info-title");
         if (group.deactivated) {
             $("#groups_overlay .deactivated-user-group-icon-right").show();
         } else {
