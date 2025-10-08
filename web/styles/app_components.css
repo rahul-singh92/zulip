@@ -281,7 +281,8 @@ input::placeholder {
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
-        vertical-align: bottom; /* See https://stackoverflow.com/a/43266155/ */
+        vertical-align: bottom;
+        /* See https://stackoverflow.com/a/43266155/ */
         padding: 3px 10px;
         background-color: var(--color-background-tab-switcher-ind-tab);
         cursor: pointer;
@@ -835,7 +836,8 @@ input.settings_text_input {
         .icon-button {
             display: inline-flex;
             align-items: center;
-            min-height: 2.1875em; /* 35px at 16px/1em */
+            min-height: 2.1875em;
+            /* 35px at 16px/1em */
         }
     }
 
@@ -899,14 +901,16 @@ input.settings_text_input {
     display: flex;
     flex-wrap: wrap;
     margin: 0.2857em 0;
-    gap: 0 0.625em; /* 10px at 16px em */
+    gap: 0 0.625em;
+    /* 10px at 16px em */
     align-items: center;
 }
 
 .save-button-controls {
     display: flex;
     align-items: center;
-    gap: 0.3125em; /* 5px at 16px em */
+    gap: 0.3125em;
+    /* 5px at 16px em */
 
     &.hide {
         display: none;
@@ -1256,6 +1260,7 @@ input.settings_text_input {
         &:nth-of-type(5):checked ~ .slider {
             --tab-selected-tab-picker: 4;
         }
+
         /* If a tab picker with more than 5 tabs is required,
            extend this using the same pattern as above. */
     }
@@ -1469,9 +1474,14 @@ input.invalid-input {
     }
 }
 
+/*This is the class for left sidebar of text + button in User Groups.*/
 .empty-user-group-container {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: flex-start;
     gap: 0.5em;
+    width: 100%;
+    align-self: flex-start;      
+    margin-top: -35px;            
 }

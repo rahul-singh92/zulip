@@ -85,22 +85,6 @@ const initial_group_filter = FILTERS.ACTIVE_GROUPS;
 let group_list_widget: ListWidget.ListWidget<UserGroup, UserGroup>;
 let group_list_toggler: Toggle;
 
-const GROUP_INFO_BANNER: Banner = {
-    intent: "info",
-    label: $t({
-        defaultMessage:
-            "User groups offer a flexible way to manage permissions in your organization.",
-    }),
-    buttons: [
-        {
-            label: $t({defaultMessage: "Learn more"}),
-            custom_classes: "banner-external-link",
-            attention: "quiet",
-        },
-    ],
-    close_button: false,
-};
-
 function get_user_group_id(target: HTMLElement): number {
     const $row = $(target).closest(
         ".group-row, .user_group_settings_wrapper, .save-button, .group_settings_header",
@@ -451,6 +435,7 @@ function update_your_groups_list_if_needed(): void {
         // affect the memberships of groups that have the
         // updated group as their subgroup.
         redraw_user_group_list();
+        update_filter_widget_visibility();
     }
 }
 
@@ -1318,6 +1303,7 @@ export function handle_deleted_group(group_id: number): void {
         update_group_membership_button(user_group.id);
     }
     redraw_user_group_list();
+    update_filter_widget_visibility();
 }
 
 export function handle_reactivated_group(group_id: number): void {
@@ -1336,6 +1322,7 @@ export function handle_reactivated_group(group_id: number): void {
         update_group_membership_button(user_group.id);
     }
     redraw_user_group_list();
+    update_filter_widget_visibility();
 }
 
 export function show_group_settings(group: UserGroup): void {
@@ -1464,6 +1451,7 @@ export function add_group_to_table(group: UserGroup): void {
     }
 
     redraw_user_group_list();
+    update_filter_widget_visibility();
 
     if (user_group_create.get_name() === group.name) {
         // This `user_group_create.get_name()` check tells us whether the
@@ -1545,8 +1533,9 @@ export function update_group(event: UserGroupUpdateEvent, group: UserGroup): voi
         update_group_details(group);
         if (event.data.name !== undefined) {
             // update settings title
-            $("#groups_overlay .user-group-info-title")
+            $("#groups_overlay .user-group-info-title .group-name-text")
                 .text(user_groups.get_display_group_name(group.name))
+            $("#groups_overlay .user-group-info-title")
                 .addClass("showing-info-title");
         }
 
@@ -1655,6 +1644,7 @@ export function switch_group_tab(tab_name: string): void {
 
     redraw_left_panel(tab_name);
     setup_group_list_tab_hash(tab_name);
+    update_filter_widget_visibility();
 }
 
 export function add_or_remove_from_group(group: UserGroup, $group_row: JQuery): void {
@@ -1855,10 +1845,37 @@ function setup_dropdown_filters_widget(): void {
 }
 
 function update_filter_widget_visibility(): void {
+    const tab_key = get_active_data().$tabs.first().attr("data-tab-key");
+    let groups_list_data;
+    
+    if (tab_key === "all-groups") {
+        groups_list_data = user_groups.get_realm_user_groups(true);
+    } else if (tab_key === "your-groups") {
+        groups_list_data = user_groups.get_user_groups_of_user(people.my_current_user_id(), true);
+    }
+    
+    const $filterDropdown = $("#user-group-edit-filter-options");
+    const $searchBox = $("#group_filter");
+    
+    // Hide both filter dropdown AND search box if there are no groups at all
+    if (!groups_list_data || groups_list_data.length === 0) {
+        $filterDropdown.hide();
+        $searchBox.hide(); // Hide the entire search box container
+        update_displayed_groups(FILTERS.ACTIVE_GROUPS);
+        if (filters_dropdown_widget) {
+            filters_dropdown_widget.render(FILTERS.ACTIVE_GROUPS);
+        }
+        return;
+    }
+    
+    // Show search box when there are groups
+    $searchBox.show();
+    
+    // Show filter dropdown only if there are deactivated groups
     if (user_groups.realm_has_deactivated_user_groups()) {
-        $("#user-group-edit-filter-options").show();
+        $filterDropdown.show();
     } else {
-        $("#user-group-edit-filter-options").hide();
+        $filterDropdown.hide();
         update_displayed_groups(FILTERS.ACTIVE_GROUPS);
         if (filters_dropdown_widget) {
             filters_dropdown_widget.render(FILTERS.ACTIVE_GROUPS);
@@ -1902,11 +1919,6 @@ export function setup_page(callback: () => void): void {
         );
         $groups_overlay_container.html(groups_overlay_html);
         update_displayed_groups(initial_group_filter);
-        settings_banner.set_up_banner(
-            $(".group-info-banner"),
-            GROUP_INFO_BANNER,
-            "/help/user-groups",
-        );
 
         settings_banner.set_up_upgrade_banners();
         // Initially as the overlay is build with empty right panel,
