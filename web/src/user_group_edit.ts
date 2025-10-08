@@ -1535,7 +1535,6 @@ export function update_group(event: UserGroupUpdateEvent, group: UserGroup): voi
             // update settings title
             $("#groups_overlay .user-group-info-title .group-name-text")
                 .text(user_groups.get_display_group_name(group.name))
-            $("#groups_overlay .user-group-info-title")
                 .addClass("showing-info-title");
         }
 

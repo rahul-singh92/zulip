@@ -1474,7 +1474,7 @@ input.invalid-input {
     }
 }
 
-/*This is the class for left sidebar of text + button in User Groups.*/
+/* This is the class for left sidebar of text + button in User Groups. */
 .empty-user-group-container {
     display: flex;
     flex-direction: column;
@@ -1482,6 +1482,6 @@ input.invalid-input {
     justify-content: flex-start;
     gap: 0.5em;
     width: 100%;
-    align-self: flex-start;      
-    margin-top: -35px;            
+    align-self: flex-start;
+    margin-top: -35px;
 }
