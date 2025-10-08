@@ -1846,30 +1846,30 @@ function setup_dropdown_filters_widget(): void {
 function update_filter_widget_visibility(): void {
     const tab_key = get_active_data().$tabs.first().attr("data-tab-key");
     let groups_list_data;
-    
+
     if (tab_key === "all-groups") {
         groups_list_data = user_groups.get_realm_user_groups(true);
     } else if (tab_key === "your-groups") {
         groups_list_data = user_groups.get_user_groups_of_user(people.my_current_user_id(), true);
     }
-    
+
     const $filterDropdown = $("#user-group-edit-filter-options");
     const $searchBox = $("#group_filter");
-    
+
     // Hide both filter dropdown AND search box if there are no groups at all
     if (!groups_list_data || groups_list_data.length === 0) {
         $filterDropdown.hide();
-        $searchBox.hide(); // Hide the entire search box container
+        $searchBox.hide();
         update_displayed_groups(FILTERS.ACTIVE_GROUPS);
         if (filters_dropdown_widget) {
             filters_dropdown_widget.render(FILTERS.ACTIVE_GROUPS);
         }
         return;
     }
-    
+
     // Show search box when there are groups
     $searchBox.show();
-    
+
     // Show filter dropdown only if there are deactivated groups
     if (user_groups.realm_has_deactivated_user_groups()) {
         $filterDropdown.show();
